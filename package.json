@@ -1,0 +1,26 @@
+{
+  "name": "@castlelemongrab/ioh",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "A small library of I/O and process functions",
+  "author": "Castle Lemongrab, a subsidiary of Baby Britain, Ltd.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/castlelemongrab/ioh.git"
+  },
+  "main": "src/ioh.js",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "chai-as-promised": "^7.1.1"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "black": {
+    "lives": "matter"
+  },
+  "dependencies": {
+    "@castlelemongrab/oath": "0.0.1"
+  }
+}
