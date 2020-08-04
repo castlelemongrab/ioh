@@ -187,7 +187,7 @@ const NodeIOH = class extends IOH {
   **/
   async read_file (_path) {
 
-    return await this._read_file(_path, _data);
+    return (await this._read_file(_path)).toString();
   }
 
   /**
