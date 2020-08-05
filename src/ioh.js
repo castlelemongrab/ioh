@@ -10,7 +10,7 @@ const Oath = require('@castlelemongrab/oath');
 const IOH = class {
 
   /**
-    Write a string to standard output; linefeed is unavoidable.
+    Write a string to the console; linefeed is unavoidable.
     @arg _message {string} - The message to emit.
   **/
   stdout (_message) {
@@ -21,7 +21,7 @@ const IOH = class {
   }
 
   /**
-    Write a string to standard error; linefeed is unavoidable.
+    Write a string to console error; linefeed is unavoidable.
     @arg _message {string} - The message to emit.
   **/
   stderr (_message, _is_critical) {
@@ -31,7 +31,7 @@ const IOH = class {
     if (_is_critical) {
       console.error(message);
     } else {
-      console.log(_message);
+      console.debug(_message);
     }
 
     return this;
@@ -203,7 +203,8 @@ const NodeIOH = class extends IOH {
 };
 
 /**
-  A mix-in to force all output to be be buffered in memory
+  A mix-in to force all output to be be buffered in memory.
+  This is either beautiful, a programmer war crime, or both.
 **/
 const Plug = (_class) => class extends _class {
 
@@ -211,16 +212,42 @@ const Plug = (_class) => class extends _class {
 
     super(_options);
 
-    this._stdout = '';
-    this._stderr = '';
+    return this.reset();
+  }
+
+  /**
+  **/
+  reset () {
+
+    this._files = {};
+    this._stdout = null;
+    this._stderr = null;
 
     return this;
+  }
+
+  /**
+  **/
+  get files () {
+
+    return this._files;
+  }
+
+  /**
+  **/
+  get_file (_path) {
+
+    return this._files[_path];
   }
 
   /**
     Write a string to standard output.
   **/
   stdout (_message) {
+
+    if (this._stdout === null) {
+      this._stdout = '';
+    }
 
     this._stdout += _message;
     return this;
@@ -231,8 +258,24 @@ const Plug = (_class) => class extends _class {
   **/
   stderr (_message, _is_critical) {
 
+    if (this._stderr === null) {
+      this._stderr = '';
+    }
+
     this._stderr += _message;
     return this;
+  }
+
+  /**
+  **/
+  async write_file (_path, _data) {
+
+    if (this._files[_path] == null) {
+      this._files[_path] = '';
+    }
+
+    this._files[_path] += _data.toString();
+    return Promise.resolve();
   }
 
   /**
