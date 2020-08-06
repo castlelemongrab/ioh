@@ -3,7 +3,7 @@
 
 const path = require('path');
 const chai = require('chai');
-const IO = require('../src/ioh');
+const IO = require('../../src/ioh');
 const promises = require('chai-as-promised');
 
 /**
@@ -42,7 +42,7 @@ describe('ioh', () => {
 
   it('can read files', () => {
     let i = new IO.Node();
-    i.read_file(path.join(__dirname, 'fixtures', 'text', 'hello.txt'))
+    i.read_file(path.join(__dirname, '..', 'fixtures', 'text', 'hello.txt'))
       .should.eventually.equal('world\n');
   });
 });
