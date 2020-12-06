@@ -1,6 +1,6 @@
 {
   "name": "@castlelemongrab/ioh",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "description": "A small library of I/O and process functions",
   "author": "Castle Lemongrab, a subsidiary of Baby Britain, Ltd.",

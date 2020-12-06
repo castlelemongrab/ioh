@@ -40,6 +40,14 @@ describe('ioh', () => {
     expect(i2.get_file('text.txt')).to.be.undefined;
   });
 
+  it('supports log levels', () => {
+    let i = new IO.NodePlug();
+    i.log_level = 1;
+    i.log('test', 'Should appear', 1);
+    i.log('test', 'Should not appear', 0);
+    i.toString(true).should.equal('[test] Should appear\n');
+  });
+
   it('can read files', () => {
     let i = new IO.Node();
     i.read_file(path.join(__dirname, '..', 'fixtures', 'text', 'hello.txt'))

@@ -10,6 +10,36 @@ const Oath = require('@castlelemongrab/oath');
 const IOH = class {
 
   /**
+  **/
+  constructor (_options) {
+
+    this._options = (_options || {});
+    this.log_level = this.options.log_level;
+    return this;
+  }
+
+  /**
+  **/
+  get options () {
+
+    return this._options;
+  }
+
+  /**
+  **/
+  get log_level () {
+
+    return this._log_level;
+  }
+
+  /**
+  **/
+  set log_level (_level) {
+
+    this._log_level = (parseInt(_level, 10) || 0);
+  }
+
+  /**
     Write a string to the console; linefeed is unavoidable.
     @arg _message {string} - The message to emit.
   **/
@@ -71,27 +101,17 @@ const IOH = class {
     Log a message to standard error.
     @arg {_type} {string} - The type of message being logged.
     @arg {_message} {string} - The message to log to standard error.
+    @arg {_level} {number} - The severity level; defaults to zero
   **/
-  log (_type, _message) {
+  log (_type, _message, _level) {
 
-    this.stderr(`[${_type}] ${_message}\n`);
-    return this;
-  }
+    let level = (_level || 0);
 
-  /**
-    Log a message to standard error while obeying a numeric log level.
-    @arg {_type} {string} - The type of message being logged.
-    @arg {_message} {string} - The message to log to standard error.
-    @arg {_limit} {number} - The current log level limit.
-    @arg {_level} {number} - The log level of this message.
-  **/
-  log_level (_type, _message, _limit, _level) {
-
-    if (_level > _limit) {
-      return this;
+    if (level >= this.log_level) {
+      this.stderr(`[${_type}] ${_message}\n`);
     }
 
-    return this.log(_type, _message);
+    return this;
   }
 
   /**
@@ -208,6 +228,8 @@ const NodeIOH = class extends IOH {
 **/
 const Plug = (_class) => class extends _class {
 
+  /**
+  **/
   constructor (_options) {
 
     super(_options);
